@@ -10,4 +10,9 @@ export default defineNuxtConfig({
   },
   css: ["~/assets/css/global.css"],
   modules: ["nuxt-icons", "@pinia/nuxt"],
+  app: {
+    head: {
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.jpg" }],
+    },
+  },
 });
