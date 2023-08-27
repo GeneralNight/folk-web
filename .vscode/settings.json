@@ -1,0 +1,21 @@
+{
+  "files.autoSave": "off",
+  "editor.formatOnSave": true,
+  "files.eol": "\n",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "i18n-ally.localesPaths": ["apps/client/locales"],
+  "i18n-ally.keystyle": "nested",
+  "cSpell.words": ["booktone", "Cloudinary", "FIRESTORE", "mjml", "Starport", "tiktok", "tsoa", "unfollow"],
+  "[sql]": {
+    "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
+  },
+  "vue-i18n.i18nPaths": "apps/client/locales"
+}
