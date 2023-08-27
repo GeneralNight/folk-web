@@ -3,11 +3,11 @@ const route = useRoute();
 
 const bgAside = computed(() => {
   switch (route.name) {
-    case "signin":
+    case "auth-signin":
       return "bgSignin";
-    case "signup":
+    case "auth-signup":
       return "bgSignup";
-    case "recovery-password":
+    case "auth-recovery-password":
       return "bgRecovery";
   }
 });
@@ -16,10 +16,14 @@ const bgAside = computed(() => {
 <template>
   <div class="flex items-center inset-0 bg-white h-[100vh] w-full">
     <div
-      class="flex flex-col w-[100vw] lg:w-[50vw] h-full bg-white justify-center"
+      class="flex flex-col w-[100vw] lg:w-[50vw] h-full bg-white justify-center relative"
     >
       <div
-        class="flex flex-col justify-start items-start py-20 overflow-y-scroll hide-scrollbar px-[15px] sm:px-[50px] xl:px-[75px] 2xl:px-[150px]"
+        class="opacity-20 bg-black inset-0 absolute z-0 blur-[2px] bg-cover bg-center lg:hidden"
+        :class="bgAside"
+      ></div>
+      <div
+        class="flex flex-col justify-start items-start py-20 overflow-y-scroll hide-scrollbar px-[15px] sm:px-[50px] xl:px-[75px] 2xl:px-[150px] z-10"
       >
         <slot />
       </div>
