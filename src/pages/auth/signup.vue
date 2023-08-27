@@ -27,7 +27,7 @@ const handleSignUp = () => {
         </h1>
         <div class="flex items-center gap-2 text-sm sm:text-[16px]">
           <span class="opacity-75"> Já possui uma conta? </span>
-          <NuxtLink to="/signin" class="text-yellow-400 font-bold">
+          <NuxtLink to="/auth/signin" class="text-yellow-400 font-bold">
             Fazer login
           </NuxtLink>
         </div>

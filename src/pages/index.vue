@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 onBeforeMount(() => {
-  navigateTo({ path: "/signin", force: true, replace: true });
+  navigateTo({ path: "/auth/signin", force: true, replace: true });
 });
 </script>
 

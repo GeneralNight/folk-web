@@ -14,6 +14,7 @@ const handleSignIn = () => {
 <template>
   <div class="flex flex-col gap-10 w-full items-start">
     <img src="~/assets/imgs/Logo.png" class="h-8 lg:h-9 xl:h-10" />
+
     <div class="flex flex-col gap-8 w-full">
       <div class="flex flex-col gap-1">
         <h1 class="font-bold text-xl sm:text-3xl xl:text-4xl">
@@ -21,7 +22,7 @@ const handleSignIn = () => {
         </h1>
         <div class="flex items-center gap-2 text-sm sm:text-[16px]">
           <span class="opacity-75">Novo por aqui?</span>
-          <NuxtLink to="/signup" class="text-yellow-400 font-bold">
+          <NuxtLink to="/auth/signup" class="text-yellow-400 font-bold">
             Criar conta
           </NuxtLink>
         </div>
@@ -48,7 +49,7 @@ const handleSignIn = () => {
             />
             <div class="flex items-center justify-end">
               <NuxtLink
-                to="recovery-password"
+                to="/auth/recovery-password"
                 class="font-bold text-yellow-400 text-sm sm:text-[16px]"
               >
                 Esqueci minha senha
