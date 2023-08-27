@@ -1,21 +1,25 @@
 <script lang="ts" setup>
 definePageMeta({ layout: "auth" });
 
-const handleSignIn = () => {};
+const formValues = ref({
+  email: "",
+  password: "",
+});
 
-const focusedEmailInput = ref(false);
-const focusedPasswordInput = ref(false);
+const handleSignIn = () => {
+  console.log(formValues.value);
+};
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-start items-start gap-10 px-[150px] py-20 overflow-y-scroll hide-scrollbar"
-  >
-    <img src="~/assets/imgs/Logo.png" class="h-10" />
+  <div class="flex flex-col gap-10 w-full items-start">
+    <img src="~/assets/imgs/Logo.png" class="h-8 lg:h-9 xl:h-10" />
     <div class="flex flex-col gap-8 w-full">
       <div class="flex flex-col gap-1">
-        <h1 class="font-bold text-[36px]">Entrar na Folk Web</h1>
-        <div class="flex items-center gap-2">
+        <h1 class="font-bold text-xl sm:text-3xl xl:text-4xl">
+          Entrar na Folk Web
+        </h1>
+        <div class="flex items-center gap-2 text-sm sm:text-[16px]">
           <span class="opacity-75">Novo por aqui?</span>
           <NuxtLink to="/signup" class="text-yellow-400 font-bold">
             Criar conta
@@ -28,51 +32,31 @@ const focusedPasswordInput = ref(false);
       >
         <div class="flex flex-col gap-7 w-full">
           <div class="flex flex-col w-full">
-            <div
-              class="flex flex-1 items-center gap-4 border border-opacity-50 rounded-lg pl-[15px]"
-              :class="{
-                'border-yellow-primary border-opacity-100': focusedEmailInput,
-              }"
-            >
-              <NuxtIcon name="envelope" />
-              <input
-                @focusin="focusedEmailInput = true"
-                @focusout="focusedEmailInput = false"
-                type="text"
-                class="py-3 w-full pr-[15px] outline-none rounded-lg"
-                placeholder="Email"
-              />
-            </div>
+            <DefaultInputForm
+              :type="'email'"
+              :icon="'envelope'"
+              :placeholder="'Email'"
+              v-model:inputValue="formValues.email"
+            />
           </div>
           <div class="flex flex-col w-full gap-4">
-            <div
-              class="flex flex-1 items-center gap-4 border border-opacity-50 rounded-lg pl-[15px]"
-              :class="{
-                'border-yellow-primary border-opacity-100': focusedEmailInput,
-              }"
-            >
-              <NuxtIcon name="lock" />
-              <input
-                @focusin="focusedPasswordInput = true"
-                @focusout="focusedPasswordInput = false"
-                type="text"
-                class="py-3 w-full pr-[15px] outline-none rounded-lg"
-                placeholder="Senha"
-              />
-            </div>
+            <DefaultInputForm
+              :type="'password'"
+              :icon="'lock'"
+              :placeholder="'Senha'"
+              v-model:inputValue="formValues.password"
+            />
             <div class="flex items-center justify-end">
-              <NuxtLink to="recovery-password" class="font-bold text-yellow-400"
-                >Esqueci minha senha</NuxtLink
+              <NuxtLink
+                to="recovery-password"
+                class="font-bold text-yellow-400 text-sm sm:text-[16px]"
               >
+                Esqueci minha senha
+              </NuxtLink>
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          class="text-yellow-400 font-bold text-lg rounded-lg bg-yellow-primary w-full py-3 customShadow hover:brightness-95 duration-100"
-        >
-          Entrar
-        </button>
+        <DefaultButtonFinish label="Entrar" :enabled="true" :type="'submit'" />
       </form>
     </div>
   </div>
