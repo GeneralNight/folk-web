@@ -27,7 +27,7 @@ const isFocused = ref(false);
       @focusout="isFocused = false"
       :type="type"
       :value="inputValue"
-      @input="$emit('update:inputValue', $event.target.value)"
+      @input="(e)=>emits('update:inputValue', (e.target as HTMLInputElement).value)"
       class="py-3 w-full pr-[15px] outline-none rounded-lg"
       :placeholder="placeholder"
     />
