@@ -6,15 +6,40 @@ const formValues = ref({
   password: "",
 });
 
+const sendingData = ref(false);
+const errors = ref(false);
+
+const enabledToSubmit = computed(() => {
+  return (
+    formValues.value.email.length > 0 &&
+    formValues.value.password.length > 5 &&
+    isEmailValid(formValues.value.email)
+  );
+});
+
 const handleSignIn = () => {
-  console.log(formValues.value);
+  if (!enabledToSubmit.value) {
+    return;
+  }
+  sendingData.value = true;
+  errors.value = false;
+  setTimeout(() => {
+    if (
+      formValues.value.email === "folkvali@terra.com.br" &&
+      formValues.value.password === "123456"
+    ) {
+      navigateTo("/dashboard");
+    } else {
+      sendingData.value = false;
+      errors.value = true;
+    }
+  }, 5000);
 };
 </script>
 
 <template>
   <div class="flex flex-col gap-10 w-full items-start">
     <img src="~/assets/imgs/Logo.png" class="h-8 lg:h-9 xl:h-10" />
-
     <div class="flex flex-col gap-8 w-full">
       <div class="flex flex-col gap-1">
         <h1 class="font-bold text-xl sm:text-3xl xl:text-4xl">
@@ -32,11 +57,23 @@ const handleSignIn = () => {
         class="flex flex-col items-center gap-10 w-full"
       >
         <div class="flex flex-col gap-7 w-full">
+          <DefaultAlertBadge
+            v-if="errors"
+            :variant="'error'"
+            :text="'Credenciais inválidas'"
+            :dismissible="true"
+            @dismiss="errors = false"
+          />
           <div class="flex flex-col w-full">
             <DefaultInputForm
               :type="'email'"
               :icon="'envelope'"
               :placeholder="'Email'"
+              :error="
+                formValues.email.length > 0 && !isEmailValid(formValues.email)
+              "
+              :errorLabel="'Informe um email válido!'"
+              :disabled="sendingData"
               v-model:inputValue="formValues.email"
             />
           </div>
@@ -46,6 +83,7 @@ const handleSignIn = () => {
               :icon="'lock'"
               :placeholder="'Senha'"
               v-model:inputValue="formValues.password"
+              :disabled="sendingData"
             />
             <div class="flex items-center justify-end">
               <NuxtLink
@@ -57,7 +95,11 @@ const handleSignIn = () => {
             </div>
           </div>
         </div>
-        <DefaultButtonFinish label="Entrar" :enabled="true" :type="'submit'" />
+        <DefaultButtonFinish
+          label="Entrar"
+          :enabled="enabledToSubmit && !sendingData"
+          :type="'submit'"
+        />
       </form>
     </div>
   </div>
