@@ -9,6 +9,8 @@ const bgAside = computed(() => {
       return "bgSignup";
     case "auth-recovery-password":
       return "bgRecovery";
+    case "auth-signup-success":
+      return "bgSignup";
   }
 });
 </script>
