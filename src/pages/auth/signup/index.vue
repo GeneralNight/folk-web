@@ -12,8 +12,48 @@ const formValues = ref({
   acceptedTerms: false,
 });
 
+const allFilled = computed(() => {
+  return Object.values(formValues.value)
+    .map((v) => {
+      return typeof v === "boolean"
+        ? v
+        : typeof v === "string"
+        ? v.length > 0
+        : false;
+    })
+    .every((v) => v);
+});
+
+const passwordNotMatches = computed(() => {
+  return formValues.value.password !== formValues.value.confirmPassword;
+});
+
+const invalidPassword = computed(() => {
+  return formValues.value.password.length < 5;
+});
+
+const enabledToSubmit = computed(() => {
+  return (
+    allFilled.value &&
+    !invalidPassword.value &&
+    !passwordNotMatches.value &&
+    isEmailValid(formValues.value.email) &&
+    isCpfValid(formValues.value.cpf)
+  );
+});
+
+const sendingData = ref(false);
+const errors = ref(false);
+
 const handleSignUp = () => {
-  console.log(formValues.value);
+  if (!enabledToSubmit.value) {
+    return;
+  }
+  sendingData.value = true;
+  errors.value = false;
+  setTimeout(() => {
+    navigateTo("/auth/signup/success");
+  }, 5000);
 };
 </script>
 
@@ -42,6 +82,7 @@ const handleSignUp = () => {
             :icon="'user'"
             :placeholder="'Primeiro nome'"
             v-model:inputValue="formValues.firstName"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -49,6 +90,7 @@ const handleSignUp = () => {
             :icon="'user'"
             :placeholder="'Sobrenome'"
             v-model:inputValue="formValues.lastName"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -56,6 +98,9 @@ const handleSignUp = () => {
             :icon="'postcard'"
             :placeholder="'CPF'"
             v-model:inputValue="formValues.cpf"
+            :error="formValues.cpf.length > 0 && !isCpfValid(formValues.cpf)"
+            :errorLabel="'Informe um CPF válido!'"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -63,6 +108,11 @@ const handleSignUp = () => {
             :icon="'envelope'"
             :placeholder="'Email'"
             v-model:inputValue="formValues.email"
+            :error="
+              formValues.email.length > 0 && !isEmailValid(formValues.email)
+            "
+            :errorLabel="'Informe um email válido!'"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -70,6 +120,7 @@ const handleSignUp = () => {
             :icon="'whatsapp'"
             :placeholder="'Whatsapp'"
             v-model:inputValue="formValues.whatsapp"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -77,6 +128,9 @@ const handleSignUp = () => {
             :icon="'lock'"
             :placeholder="'Senha'"
             v-model:inputValue="formValues.password"
+            :error="invalidPassword"
+            :errorLabel="'A senha deve conter no mínimo 6 dígitos!'"
+            :disabled="sendingData"
           />
 
           <DefaultInputForm
@@ -84,6 +138,9 @@ const handleSignUp = () => {
             :icon="'lock'"
             :placeholder="'Confirmar senha'"
             v-model:inputValue="formValues.confirmPassword"
+            :error="passwordNotMatches"
+            :errorLabel="'As senhas não correspondem!'"
+            :disabled="sendingData"
           />
           <DefaultCheckBoxInput
             :label="'Eu aceito os'"
@@ -97,7 +154,7 @@ const handleSignUp = () => {
         </div>
         <DefaultButtonFinish
           label="Criar conta"
-          :enabled="true"
+          :enabled="enabledToSubmit && !sendingData"
           :type="'submit'"
         />
       </form>
